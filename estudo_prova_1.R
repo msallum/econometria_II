@@ -37,3 +37,20 @@ var_cov_rob<-(n/n-k)*XtX_inv%*%(Xt%*%S2%*%X)%*%XtX_inv
 i<-1
 sig<-qt(0.025, n-k, lower.tail = TRUE)
 top<-B_hat[i]+var_cov_rob[i,i]*sig
+low<-B_hat[i]-var_cov_rob[i,i]*sig
+
+#Potencial outcomes
+pessoas<-tibble(
+  Y1 = sample(5:20, 15),
+  Y0 = sample(0:15, 15),
+  D = as.numeric(runif(15)>.5)
+)
+ATE<-pessoas%>%
+  mutate(TE=
+           Y1-Y0)%>%
+  summarise(mean(TE))
+AT_<-pessoas%>%
+  mutate(
+    TE=Y1-Y0)%>%
+  group_by(D)%>%
+  summarise(efeito=mean(TE))
