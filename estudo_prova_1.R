@@ -53,4 +53,20 @@ AT_<-pessoas%>%
   mutate(
     TE=Y1-Y0)%>%
   group_by(D)%>%
-  summarise(efeito=mean(TE))
+  summarise(efeito=mean(TE))#o AT_ entrega o ATU como 0 e o ATT como 1
+
+
+#Estratificação/subclassificação
+titanic<-tibble(
+  sobreviveu = as.numeric(runif(20)>.5),
+  mulher = as.numeric(runif(20)>.5),
+  criança = as.numeric(runif(20)>.5),
+  VIP = as.numeric(runif(20)>.5)
+)
+
+#sobreviver sendo VIP
+titanic%>%
+  group_by(VIP)%>%
+  summarise(mean(sobreviveu))%>%
+  accumulate(~.y - .x)
+
