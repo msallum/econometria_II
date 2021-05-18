@@ -1,4 +1,6 @@
 library(tidyverse)
+library(sandwich)
+library(lmtest)
 
 #geração dos dados
 B<-matrix(runif(10, max=10),ncol = 1)
