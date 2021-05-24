@@ -2,9 +2,7 @@
 title: "lista 1 Econometria"
 author: "Miguel Sallum"
 date: "24/05/2021"
-output: 
-  pdf_document:
-    latex_engine: xelatex
+output: pdf_document
 header-includes:
 - \usepackage[brazilian]{babel} # idioma
 - \usepackage[utf8]{inputenc}  # acento
@@ -140,7 +138,7 @@ trainees <- tibble(
   ganhos = c(9500, 12250, 11000, 11750, 13250, 10500, 9750, 10000, 10250, 12500)
 )
 non_trainees <- tibble(
-  unidade = 1:20,
+  unidade = 1:10,
   idade = c(18, 29, 24, 27, 33, 22, 19, 20, 21, 30),
   ganhos = c(9500, 12250, 11000, 11750, 13250, 10500, 9750, 10000, 10250, 12500)
 )
