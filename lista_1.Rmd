@@ -22,9 +22,9 @@ Com os dados da tabela abaixo, estime a regressão de Y em função de X2 e X3 e
 Y <- c(800, 1160, 1580, 2010, 1890, 2600, 2070, 1890, 1830, 1740, 1380, 1060)
 
 X <- tibble(
-  X1 <- 1,
-  X2 <- c(2, 4, 6, 8, 7, 12, 11, 10, 9, 8, 6, 4),
-  X3 <- c(.8, .7, .5, .4, .2, .2, .8, .7, .6, .1, .5, .4)
+  X1 = 1,
+  X2 = c(2, 4, 6, 8, 7, 12, 11, 10, 9, 8, 6, 4),
+  X3 = c(.8, .7, .5, .4, .2, .2, .8, .7, .6, .1, .5, .4)
 )
 ```
 
@@ -33,14 +33,60 @@ O modelo a ser estimado é:
 $$Y\ =\ \beta_1\ +\ \beta_2X_2\ +\ \beta_3X_3\ +\ v_t$$
 
 A Calcule os parâmetros $\beta_{1},\ \beta_{2},\ \beta_{3}$ desse modelo.
+
+```{r betas 1 }
+matX<-as.matrix(X)
+Xt<-t(matX)
+XtX<-Xt%*%matX
+XtX_inv<-solve(XtX)
+
+XtY<-Xt%*%Y
+B_hat<-XtX_inv%*%XtY
+B_hat
+
+```
 B Monte a matriz de resíduos deste modelo. Calcule a soma dos quadrados dos
-resíduos utilizando método matricial. ´
+resíduos utilizando método matricial. 
+```{r residuals 1}
+
+k<-nrow(B_hat)
+n<-nrow(Y)
+u_hat<-Y-matX%*%B_hat
+u_hat_t<-t(u_hat)
+SSR<-u_hat_t%*%u_hat
+SSR
+
+```
 C Calcule o R^2^ deste modelo.
-D Monte a matriz de variância e covariância deste modelo. ˆ
+```{r r2 1}
+
+Yt<-t(Y)
+SST<-Yt%*%Y
+R2<-1-SSR/SST
+R2
+
+```
+D Monte a matriz de variância e covariância deste modelo.
+```{r mavcov}
+k<-nrow(B_hat)
+n<-length(Y)
+
+sigma_hat<-as.numeric(SSR/(n-k))
+
+var_cov<-sigma_hat*XtX_inv
+var_cov
+
+```
 E Verifique se os $\beta_{1},\ \beta_{2},\ \beta_{3}$ sao significantes ao nível de 5% de significância.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r teste 1, echo=FALSE}
+
+ep<-sqrt(diag(var_cov))
+gl<-(n-k)
+sig<-qt(0.025, gl, lower.tail = F)
+teste<-B_hat/ep
+abs(teste)>=sig
+
 ```
 
 ## Questão 2
@@ -59,15 +105,65 @@ O modelo a ser estimado é:
 $$Y\ =\ \beta_1\ +\ \beta_2X_2\ +\ \beta_3X_3\ +\ \beta_4D\ +\ v_t$$
 
 A Calcule os parâmetros $\beta_{1},\ \beta_{2},\ \beta_{3}$ desse modelo.
+
+```{r betas 2}
+Xd<-as.matrix(Xd)
+Xtd<-t(Xd)
+XtXd<-Xtd%*%Xd
+XtXd_inv<-solve(XtXd)
+
+XtdY<-Xtd%*%Y
+B_hatd<-XtXd_inv%*%XtdY
+B_hatd
+
+```
+
 B Monte a matriz de resíduos deste modelo. Calcule a soma dos quadrados dos
-resíduos utilizando método matricial. ´
+resíduos utilizando método matricial.
+
+```{r residuals 2}
+
+kd<-nrow(B_hatd)
+u_hatd<-Y-Xd%*%B_hatd
+u_hatd_t<-t(u_hatd)
+SSRd<-u_hatd_t%*%u_hatd
+SSRd
+
+```
+
 C Calcule o R^2^ deste modelo.
-D Monte a matriz de variância e covariância robusta deste modelo. ˆ
+
+```{r r2 2}
+
+R2<-1-SSR/SST
+R2
+
+```
+
+D Monte a matriz de variância e covariância robusta deste modelo.
+
+```{r mavcov robusta}
+
+S<-diag(c(u_hatd))
+S2<-S%*%S
+var_cov_rob<-(n/n-kd)*XtXd_inv%*%(Xtd%*%S2%*%Xd)%*%XtXd_inv
+```
+
 E Verifique se os $\beta_{1},\ \beta_{2},\ \beta_{3}$ sao significantes ao nível de 5% de significância.
+
+```{r teste 2, echo=FALSE}
+
+epd<-sqrt(diag(var_cov_rob))
+gld<-(n-kd)
+sigd<-qt(0.025, gld, lower.tail = F)
+tested<-B_hatd/epd
+abs(tested)>=sigd
+
+```
 
 ## Questão 3
 
-Use os valores descritos na tabela abaixo para ilustrar que $E[Yi(0)] − E[Yi(1)] =E[Yi(0) − Yi(1)]$
+Use os valores descritos na tabela abaixo para ilustrar que $E[Yi(0)] - E[Yi(1)] =E[Yi(0) - Yi(1)]$
 
 ```{r P.O. 1}
 vilas <- tibble(
@@ -128,7 +224,7 @@ B Observe que a distribuição etária dos fumantes de cigarros é exatamente o 
 
 ## Questão 8
 
-A tabela 3 fornece informações sobre idade e rendimento salarial de dois grupos, trainees e non−trainees. Sabendo que o método de *Matched Sample* é o mais adequado para comparação entre esses dois grupos, analise a diferença salarial entre trainees e non−trainees. Há diferença salarial? Monte a tabela de *Matched Sample*.
+A tabela 3 fornece informações sobre idade e rendimento salarial de dois grupos, trainees e non-trainees. Sabendo que o método de *Matched Sample* é o mais adequado para comparação entre esses dois grupos, analise a diferença salarial entre trainees e non-trainees. Há diferença salarial? Monte a tabela de *Matched Sample*.
 
 ```{r matched samples}
 
@@ -166,4 +262,6 @@ O eixo horizontal do gráfico retrata nota do SAT dos indivíduos, enquanto que 
 A Interprete os dados. Qual a relação entre a nota do SAT e os ganhos estimados? o quê explica essa descontinuidade no grafico? ´
 B“Estimated Discontinuity = 0.095 (z = 3.01).” o que isso significa?
 
-11. Ainda pensando em RDDs, explique o conceito de ”bandwidth”. Como o uso de uma largura de banda maior afeta sua estimativa dos efeitos do tratamento?
+## Questão 11
+
+Ainda pensando em RDDs, explique o conceito de ”bandwidth”. Como o uso de uma largura de banda maior afeta sua estimativa dos efeitos do tratamento?
