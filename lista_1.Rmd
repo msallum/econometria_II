@@ -15,7 +15,7 @@ library(tidyverse)
 
 ## Questão 1
 
-Com os dados da tabela abaixo, estime a regressão de Y em função de X2 e X3 e faça os testes da regressão e de cada um dos parâmetros.
+**Com os dados da tabela abaixo, estime a regressão de Y em função de X2 e X3 e faça os testes da regressão e de cada um dos parâmetros.**
 
 ```{r dados 1}
 
@@ -28,11 +28,11 @@ X <- tibble(
 )
 ```
 
-O modelo a ser estimado é:
+**O modelo a ser estimado é:**
 
 $$Y\ =\ \beta_1\ +\ \beta_2X_2\ +\ \beta_3X_3\ +\ v_t$$
 
-A Calcule os parâmetros $\beta_{1},\ \beta_{2},\ \beta_{3}$ desse modelo.
+**A Calcule os parâmetros $\beta_{1},\ \beta_{2},\ \beta_{3}$ desse modelo.**
 
 ```{r betas 1 }
 matX<-as.matrix(X)
@@ -45,8 +45,8 @@ B_hat<-XtX_inv%*%XtY
 B_hat
 
 ```
-B Monte a matriz de resíduos deste modelo. Calcule a soma dos quadrados dos
-resíduos utilizando método matricial. 
+**B Monte a matriz de resíduos deste modelo. Calcule a soma dos quadrados dos resíduos utilizando método matricial.**
+
 ```{r residuals 1}
 
 k<-nrow(B_hat)
@@ -57,7 +57,8 @@ SSR<-u_hat_t%*%u_hat
 SSR
 
 ```
-C Calcule o R^2^ deste modelo.
+**C Calcule o R^2^ deste modelo.**
+
 ```{r r2 1}
 
 Yt<-t(Y)
@@ -66,7 +67,8 @@ R2<-1-SSR/SST
 R2
 
 ```
-D Monte a matriz de variância e covariância deste modelo.
+**D Monte a matriz de variância e covariância deste modelo.**
+
 ```{r mavcov}
 k<-nrow(B_hat)
 n<-length(Y)
@@ -77,7 +79,7 @@ var_cov<-sigma_hat*XtX_inv
 var_cov
 
 ```
-E Verifique se os $\beta_{1},\ \beta_{2},\ \beta_{3}$ sao significantes ao nível de 5% de significância.
+**E Verifique se os $\beta_{1},\ \beta_{2},\ \beta_{3}$ sao significantes ao nível de 5% de significância.**
 
 ```{r teste 1, echo=FALSE}
 
@@ -91,7 +93,7 @@ abs(teste)>=sig
 
 ## Questão 2
 
-A questão anterior adicionamos uma variável *dummy*, que representa a existência ou não de determinado atributo. 
+**A questão anterior adicionamos uma variável *dummy*, que representa a existência ou não de determinado atributo.**
 
 ```{r dados 2}
 Xd <- X %>%
@@ -100,11 +102,11 @@ Xd <- X %>%
   )
 ```
 
-O modelo a ser estimado é:
+**O modelo a ser estimado é:**
 
 $$Y\ =\ \beta_1\ +\ \beta_2X_2\ +\ \beta_3X_3\ +\ \beta_4D\ +\ v_t$$
 
-A Calcule os parâmetros $\beta_{1},\ \beta_{2},\ \beta_{3}$ desse modelo.
+**A Calcule os parâmetros $\beta_{1},\ \beta_{2},\ \beta_{3}$ desse modelo.**
 
 ```{r betas 2}
 Xd<-as.matrix(Xd)
@@ -118,8 +120,7 @@ B_hatd
 
 ```
 
-B Monte a matriz de resíduos deste modelo. Calcule a soma dos quadrados dos
-resíduos utilizando método matricial.
+**B Monte a matriz de resíduos deste modelo. Calcule a soma dos quadrados dos resíduos utilizando método matricial.**
 
 ```{r residuals 2}
 
@@ -131,7 +132,7 @@ SSRd
 
 ```
 
-C Calcule o R^2^ deste modelo.
+**C Calcule o R^2^ deste modelo.**
 
 ```{r r2 2}
 
@@ -140,7 +141,7 @@ R2
 
 ```
 
-D Monte a matriz de variância e covariância robusta deste modelo.
+**D Monte a matriz de variância e covariância robusta deste modelo.**
 
 ```{r mavcov robusta}
 
@@ -149,7 +150,7 @@ S2<-S%*%S
 var_cov_rob<-(n/n-kd)*XtXd_inv%*%(Xtd%*%S2%*%Xd)%*%XtXd_inv
 ```
 
-E Verifique se os $\beta_{1},\ \beta_{2},\ \beta_{3}$ sao significantes ao nível de 5% de significância.
+**E Verifique se os $\beta_{1},\ \beta_{2},\ \beta_{3}$ sao significantes ao nível de 5% de significância.**
 
 ```{r teste 2, echo=FALSE}
 
@@ -163,7 +164,7 @@ abs(tested)>=sigd
 
 ## Questão 3
 
-Use os valores descritos na tabela abaixo para ilustrar que $E[Yi(0)] - E[Yi(1)] =E[Yi(0) - Yi(1)]$
+**Use os valores descritos na tabela abaixo para ilustrar que $E[Y_i(0)] - E[Y_i(1)] =E[Y_i(0) - Y_i(1)]$ **
 
 ```{r P.O. 1}
 vilas <- tibble(
@@ -172,24 +173,29 @@ vilas <- tibble(
   Y1 = c(15, 15, 30, 15, 20, 15, 30),
   tau = Y1- Y0
 )
+
+EY0<-mean(vilas$Y0)
+EY1<-mean(vilas$Y1)
+Edif<- -mean(vilas$tau)
+EY0 - EY1 == Edif
 ```
 
 ## Questão 4
 
-Demonstre como chegar nessa igualdade:
+**Demonstre como chegar nessa igualdade:**
 
 $$\frac{1}{N_t}\sum_{i=1}^n( y_i | d_i=1)\ +\ \frac{1}{N_C}\sum_{i=1}^n( y_i | d_i=0)\ =\ E[Y^1]\ -\ E[Y^0]$$\newline $$+\ E[Y^0|D=1]\ -\ E[Y^0|D=0]\ +\ (1\ -\ \pi)(ATT\ -\ ATU) $$
 
 ## Questão 5
 
-Em que condições teremos a seguinte igualdade? Justifique
+**Em que condições teremos a seguinte igualdade? Justifique**
 
 $$\frac{1}{N_t}\sum_{i=1}^n( y_i | d_i=1)\ +\ \frac{1}{N_C}\sum_{i=1}^n( y_i | d_i=0)\ =\ E[Y^1]\ -\ E[Y^0]$$
 
 ## Questão 6
 
-Suponha que um laboratório esteja testando um novo medicamento que tem como objetivo prolongar a vida de pacientes com câncer. Para realizar o estudo, os cientistas irão dividir sua amostra em dois grupos. Os indíviduos pares são os indivíduos do grupo tratamento e que tomam o medicamento, enquanto que os indivíduos ímpares pertencem ao grupo controle e tomam um placebo.
-Os efeitos dos medicamento sao adversos. Suponha que se o paciente tomar o medicamento, então ele terá a expectativa de vida Y^1^~i~ adicional. De maneira análoga, se o paciente tomar o placebo, então ele terá a expectativa de vida Y^2^~i~ adicional.
+**Suponha que um laboratório esteja testando um novo medicamento que tem como objetivo prolongar a vida de pacientes com câncer. Para realizar o estudo, os cientistas irão dividir sua amostra em dois grupos. Os indíviduos pares são os indivíduos do grupo tratamento e que tomam o medicamento, enquanto que os indivíduos ímpares pertencem ao grupo controle e tomam um placebo.**
+**Os efeitos dos medicamento sao diversos. Suponha que se o paciente tomar o medicamento, então ele terá a expectativa de vida Y^1^~i~ adicional. De maneira análoga, se o paciente tomar o placebo, então ele terá a expectativa de vida Y^2^~i~ adicional.**
 
 ```{r P.O. 2}
 
@@ -198,15 +204,43 @@ pacientes <- tibble(
   Y1 = c(8, 9, 8, 4, 7, 1, 5, 7, 5, 4, 5, 10, 5, 10, 2),
   Y2 = c(6, 5, 4, 3, 2, 1, 4, 6, 4, 5, 2, 3, 4, 5, 1)
 )
+
 ```
-A Calcule os Efeitos médios de tratamento.
-B Calcule os efeitos médios do grupo de tratamento . 
-C Calcule os efeitos médios do grupo de controle. 
-D O que voce conclui sobre a eficácia do novo medicamento?
+
+**A Calcule os Efeitos médios de tratamento.**
+
+```{r ATE}
+
+ATE<-pacientes%>%
+  mutate(TE=
+           Y1-Y2)%>%
+  summarise(mean(TE))
+
+ATE
+```
+
+**B Calcule os efeitos médios do grupo de tratamento.**
+**C Calcule os efeitos médios do grupo de controle.**
+
+```{r ATT e ATU, warning=FALSE}
+
+AT_<-pacientes%>%
+  mutate(
+    TE = Y1 - Y2,
+    D = (paciente + 1)%%2)%>%
+  group_by(D)%>%
+  summarise(efeito=mean(TE))#o AT_ entrega o ATU como 0 e o ATT como 1
+AT_
+
+```
+
+**D O que voce conclui sobre a eficácia do novo medicamento?**
+
+Não teríamos nenhum desses resultados caso fosse feito realmente o experimento. No entanto, podemos ver que o remédio é eficaz (e veríamos isso também pela SDO) 
 
 ## Questão 7
 
-Um determinado grupo de pesquisadores quer analisar a taxa de mortalidade média entre fumantes de cigarro e fumantes de cachimbo/charuto. Os pesquisadores possuem os dados da ”tabela 2”, em que há informações sobre a classificação etária dos indíviduos e a taxa de mortalidade para cada subgrupo.
+**Um determinado grupo de pesquisadores quer analisar a taxa de mortalidade média entre fumantes de cigarro e fumantes de cachimbo/charuto. Os pesquisadores possuem os dados da ”tabela 2”, em que há informações sobre a classificação etária dos indíviduos e a taxa de mortalidade para cada subgrupo.**
 
 ```{r matching 1}
 
@@ -218,13 +252,28 @@ fumantes <- tibble(
 )
 ```
 
-Apos analisar os dados, responda as seguintes perguntas: ´
-A Qual e a taxa média de mortalidade para fumantes de cigarro sem subclassificação? 
-B Observe que a distribuição etária dos fumantes de cigarros é exatamente o oposto (em termos de construção) dos fumantes de cachimbo e charuto. Portanto, a distribuição de idades é desequilibrada. Ajuste a taxa de mortalidade para fumantes de cigarro para que tenha a mesma distribuição de idade do grupo de comparação, no caso fumantes de cachimbo e charuto. Qual é a nova taxa média de mortalidade? Aumentou ou diminuiu? 
+**Após analisar os dados, responda as seguintes perguntas:**
+**A Qual é a taxa média de mortalidade para fumantes de cigarro sem subclassificação?**
+
+```{r fumo}
+
+tx_real <- sum( fumantes$taxa_mortalidade * fumantes$composição_cigarro) / sum(fumantes$composição_cigarro)
+tx_real
+
+```
+
+**B Observe que a distribuição etária dos fumantes de cigarros é exatamente o oposto (em termos de construção) dos fumantes de cachimbo e charuto. Portanto, a distribuição de idades é desequilibrada. Ajuste a taxa de mortalidade para fumantes de cigarro para que tenha a mesma distribuição de idade do grupo de comparação, no caso fumantes de cachimbo e charuto. Qual é a nova taxa média de mortalidade? Aumentou ou diminuiu?** 
+
+```{r fumo_contrafactual}
+
+tx_estimada <- sum( fumantes$taxa_mortalidade * fumantes$composição_charuto) / sum(fumantes$composição_charuto)
+tx_estimada
+
+```
 
 ## Questão 8
 
-A tabela 3 fornece informações sobre idade e rendimento salarial de dois grupos, trainees e non-trainees. Sabendo que o método de *Matched Sample* é o mais adequado para comparação entre esses dois grupos, analise a diferença salarial entre trainees e non-trainees. Há diferença salarial? Monte a tabela de *Matched Sample*.
+**A tabela 3 fornece informações sobre idade e rendimento salarial de dois grupos, trainees e non-trainees. Sabendo que o método de *Matched Sample* é o mais adequado para comparação entre esses dois grupos, analise a diferença salarial entre trainees e non-trainees. Há diferença salarial? Monte a tabela de *Matched Sample*.**
 
 ```{r matched samples}
 
@@ -234,34 +283,38 @@ trainees <- tibble(
   ganhos = c(9500, 12250, 11000, 11750, 13250, 10500, 9750, 10000, 10250, 12500)
 )
 non_trainees <- tibble(
-  unidade = 1:10,
-  idade = c(18, 29, 24, 27, 33, 22, 19, 20, 21, 30),
-  ganhos = c(9500, 12250, 11000, 11750, 13250, 10500, 9750, 10000, 10250, 12500)
+  unidade = 1:20,
+  idade = c(20, 27, 21, 39, 38, 29, 39, 33, 24, 30, 33, 36, 22, 18, 43, 39, 19, 30, 51, 48),
+  ganhos = c(8500, 10075, 8725, 12775, 12550, 10525, 12775, 11425, 9400, 10750, 11425, 12100, 8950, 8050, 13675, 12775, 8275, 900, 15475, 14800)
 )
 
+merge(trainees, non_trainees, by = "idade", all.x = T, sort = F)%>%
+  distinct(unidade.x, .keep_all = T)%>%
+  mutate(
+    Dif = ganhos.x - ganhos.y)%>%
+  summarise( ganho_matched = mean(Dif))
+
 ```
+Há diferença salarial média, de $ 1607.50
 
 # Questão 9
 
-Em qual situação o uso de regressão em discontinuidade é recomendado? Dê um exemplo prático e disserte sobre as vantagens desse método.
+**Em qual situação o uso de regressão em discontinuidade é recomendado? Dê um exemplo prático e disserte sobre as vantagens desse método.**
 
 ## Questão 10
 
-Imagine dois alunos - o primeiro aluno obteve 1240 e o segundo 1250. Esses dois
-alunos sao realmente tão diferentes um do outro? Bem, claro: esses dois alunos individuais são provavelmente muito diferentes. Mas e se tivéssemos centenas de alunos que tiraram 1240 e centenas mais que fizeram 1250. Voce não acha que esses dois grupos são provavelmente muito semelhantes um ao outro em características observáveis e inobserváveis? Afinal, por que haveria de repente em 1250 uma grande diferença nas características dos alunos em uma grande amostra? Essa é a questão sobre a qual você deve refletir. Se a universidade está escolhendo arbitrariamente um ponto de corte razoável, há motivos para acreditar que ela também esta escolhendo um ponto de corte em que a habilidade natural dos alunos salta exatamente naquele ponto? Para analisar isso , Hoekstra (2009) realizou um estudo, utilizando dados disponibilizados por uma universidade estadual americana, em que realizou a seguinte estimação. 
+**Imagine dois alunos - o primeiro aluno obteve 1240 e o segundo 1250. Esses dois alunos são realmente tão diferentes um do outro? Bem, claro: esses dois alunos individuais são provavelmente muito diferentes. Mas e se tivéssemos centenas de alunos que tiraram 1240 e centenas mais que fizeram 1250. Voce não acha que esses dois grupos são provavelmente muito semelhantes um ao outro em características observáveis e inobserváveis? Afinal, por que haveria de repente em 1250 uma grande diferença nas características dos alunos em uma grande amostra? Essa é a questão sobre a qual você deve refletir. Se a universidade está escolhendo arbitrariamente um ponto de corte razoável, há motivos para acreditar que ela também esta escolhendo um ponto de corte em que a habilidade natural dos alunos salta exatamente naquele ponto? Para analisar isso , Hoekstra (2009) realizou um estudo, utilizando dados disponibilizados por uma universidade estadual americana, em que realizou a seguinte estimação.**
 
 $$ln(earnings)\ =\ \psi year\ +\ \omega Experience\ +\ \theta cohort\ +\ \epsilon$$
 
-Em que:
-• year é um vetor de dummies de anos.
-• Experience é um vetor de dummies para anos de rendimentos após o colegial, isto é, anos de experiência. 
-• cohort é um vetor de dummies que controlam para o cohort(grupo) em que o aluno se inscreveu na universidade (por exemplo, 1988).
-Os resultados da estimação podem ser analisados no gráfico abaixo:
+**Em que:**
+**• year é um vetor de dummies de anos.**
+**• Experience é um vetor de dummies para anos de rendimentos após o colegial, isto é, anos de experiência.**
+**• cohort é um vetor de dummies que controlam para o cohort(grupo) em que o aluno se inscreveu na universidade (por exemplo, 1988).**
 
-O eixo horizontal do gráfico retrata nota do SAT dos indivíduos, enquanto que o eixo vertical faz a devida correspondência dos seus ganhos.
-A Interprete os dados. Qual a relação entre a nota do SAT e os ganhos estimados? o quê explica essa descontinuidade no grafico? ´
-B“Estimated Discontinuity = 0.095 (z = 3.01).” o que isso significa?
+**A Interprete os dados. Qual a relação entre a nota do SAT e os ganhos estimados? o quê explica essa descontinuidade no grafico?**
+**B “Estimated Discontinuity = 0.095 (z = 3.01).” o que isso significa?**
 
 ## Questão 11
 
-Ainda pensando em RDDs, explique o conceito de ”bandwidth”. Como o uso de uma largura de banda maior afeta sua estimativa dos efeitos do tratamento?
+**Ainda pensando em RDDs, explique o conceito de ”bandwidth”. Como o uso de uma largura de banda maior afeta sua estimativa dos efeitos do tratamento?**
