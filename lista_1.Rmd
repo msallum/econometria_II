@@ -323,17 +323,24 @@ non_trainees <- tibble(
   idade = c(20, 27, 21, 39, 38, 29, 39, 33, 24, 30, 33, 36, 22, 18, 43, 39, 19,
             30, 51, 48),
   ganhos = c(8500, 10075, 8725, 12775, 12550, 10525, 12775, 11425, 9400, 10750,
-             11425, 12100, 8950, 8050, 13675, 12775, 8275, 900, 15475, 14800)
+             11425, 12100, 8950, 8050, 13675, 12775, 8275, 9000, 15475, 14800)
 )
-
+#feito pegando a primeira observação
 merge(trainees, non_trainees, by = "idade", all.x = T, sort = F)%>%
   distinct(unidade.x, .keep_all = T)%>%
   mutate(
     Dif = ganhos.x - ganhos.y)%>%
   summarise( ganho_matched = mean(Dif))
+#feito pegando a média das observações
+merge(trainees, non_trainees, by = "idade", all.x = T, sort = F)%>%
+  group_by(idade)%>%
+  summarise(ganhos.x=mean(ganhos.x),ganhos.y=mean(ganhos.y))%>%
+  mutate(
+    Dif = ganhos.x - ganhos.y)%>%
+  summarise( ganho_matched = mean(Dif))
 
 ```
-Há diferença salarial média, de $ 1607.50
+Há diferença salarial média, de $ 1607.50 pegando a primeira observação com a mesma idade, e de 1695 fazendo a média adequada
 
 ## Questão 9
 
