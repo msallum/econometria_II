@@ -34,8 +34,9 @@ IC<-c(B_hat[3]+ep[3]*sig, B_hat[3]-ep[3]*sig)
 #hipótese nula em 95%. Aumenta o intervalo de confiança ter muita variação dos
 #resíduos, e diminui ter muita variação em X ou ter muitas observações, tudo mais constante
 #E
-Yt<-t(Y)
-SST<-Yt%*%Y
+Ym <- Y - mean(Y)
+Ytm <- t(Ym)
+SST <- Ytm%*%Ym
 R2<-1-SSR/SST
 #Praticamente toda a variação é explicada pela regressão, e portanto podemos 
 #prever muito bem o valor de Y com os observaveis X

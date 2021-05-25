@@ -26,8 +26,9 @@ sigma_hat<-as.numeric(SSR/(n-k))
 var_cov<-sigma_hat*XtX_inv
 
 #R^2
-Yt<-t(Y)
-SST<-Yt%*%Y
+Ym <- Y - mean(Y)
+Ytm <- t(Ym)
+SST <- Ytm%*%Ym
 r2<-1-SSR/SST
 
 #estimando variancia robusta dos Betas

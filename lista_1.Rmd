@@ -81,7 +81,7 @@ var_cov
 ```
 **E Verifique se os $\beta_{1},\ \beta_{2},\ \beta_{3}$ sao significantes ao nível de 5% de significância.**
 
-```{r teste 1, echo=FALSE}
+```{r teste 1}
 
 ep<-sqrt(diag(var_cov))
 gl<-(n-k)
@@ -147,12 +147,13 @@ R2d
 
 S<-diag(c(u_hatd))
 S2<-S%*%S
-var_cov_rob<-(n/n-kd)*XtXd_inv%*%(Xtd%*%S2%*%Xd)%*%XtXd_inv
+var_cov_rob<-(n/(n-kd))*XtXd_inv%*%(Xtd%*%S2%*%Xd)%*%XtXd_inv
+var_cov_rob
 ```
 
 **E Verifique se os $\beta_{1},\ \beta_{2},\ \beta_{3}$ sao significantes ao nível de 5% de significância.**
 
-```{r teste 2, echo=FALSE}
+```{r teste 2}
 
 epd<-sqrt(diag(var_cov_rob))
 gld<-(n-kd)
