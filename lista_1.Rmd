@@ -60,10 +60,10 @@ SSR
 **C Calcule o R^2^ deste modelo.**
 
 ```{r r2 1}
-
-Yt<-t(Y)
-SST<-Yt%*%Y
-R2<-1-SSR/SST
+Ym <- Y - mean(Y)
+Ytm <- t(Ym)
+SST <- Ytm%*%Ym
+R2 <- 1 - SSR/SST
 R2
 
 ```
@@ -136,8 +136,8 @@ SSRd
 
 ```{r r2 2}
 
-R2<-1-SSR/SST
-R2
+R2d<-1-SSRd/SST
+R2d
 
 ```
 
