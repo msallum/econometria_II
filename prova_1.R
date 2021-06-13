@@ -42,7 +42,6 @@ R2<-1-SSR/SST
 #prever muito bem o valor de Y com os observaveis X
 
 #2
-install.packages("wooldridge")
 library(wooldridge)
 data("wagepan")
 #A
