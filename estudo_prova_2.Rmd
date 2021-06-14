@@ -1,0 +1,101 @@
+---
+title: "Estudo prova 2"
+author: "Miguel Sallum"
+date: "13/06/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(DiagrammeR)
+```
+
+## Regression Discontinuity Design
+
+A ideia é que você tem uma variação descontínua na _running variable_(X), como a chance de entrar num curso dado sua nota, ou o número de recursos recebidos por uma cidade dado o tamanho da população. A partir disso, é possível estimar o efeito local da variavel intermediária (a que tem essa mudança de regra de acordo com X) sobre o resultado de interesse. Essa medida é chamada de **Local Average Treatement Effect**, o LATE, e, em notação de PO, é definida como:
+$$
+LATE\ =\ E[Y^1|X\rightarrow x_0^+]\ -\ E[Y^0|X\rightarrow x_0^-] 
+$$
+Vamos então construir dados e estimar tal modelo
+
+```{r RDDados}
+n = 10000
+RDDados <- tibble(
+  U = rnorm(n),
+  X = rnorm(n) + U,
+  D = as.numeric(X > 1.5),
+  Y = 2*D + 0.5*X + X^2 +2*X*D +rnorm(n)) 
+
+RDDados%>%
+  ggplot(aes(x = X, y = Y, colour = D)) +
+  geom_point() +
+  theme_minimal()
+
+```
+É muito claro no gráfico que a descontinuidade existe. Agora, estimemos a regressão.
+```{r RDD estimada}
+RDDados %>%
+  lm(Y ~ D*poly(X, degree = 2), .) %>%
+  summary()
+
+```
+Alguma coisa está errada no X, preciso olhar com calma depois.
+
+### Checando estimativa
+
+A sua estimativa do efeito de D é dependende do fato da descontinuidade ser feita somente nas variaveis de interesse. A descontinuidade não pode aparecer em outras variaveis, ou até mesmo na densidade da distribuição
+
+```{r pressure, echo=FALSE}
+RDDados %>%
+  ggplot(aes(X)) +
+  geom_density()+
+  theme_minimal()
+```
+
+## Instrumental Variables Model
+
+Quando há correlação entre os não observáveis entre a variável de tratamento e resultado de interesse, a nossa estimativa será viesada. Para isso, usamos uma variavel instrumental, uma variavel que afeta o tratamento E só afeta o resultado através do tratamento. Em Potencial Outcomes:
+$$
+E[Y(D=i, Z=1)]\ =\ E[Y(D=i, Z=0)],\ i \in\{0,\ 1\}
+$$
+
+Alternativamente, podemos representar com um DAG:
+```{r DAG, echo = FALSE}
+mermaid("
+        graph LR
+        Z --> D
+        D --> Y
+        U --> D
+        U --> Y")
+```
+
+Façamos um exemplo:
+```{r IV dados}
+
+IV <- tibble(
+  Z = as.numeric(runif(n) > .5),
+  U = runif(n),
+  D = as.numeric(U + 0.25*Z > .6),
+  Y = rnorm(n) + U +D)
+
+```
+(Aqui ambos o instrumento(Z) e o tratamento(D) são variáveis binárias, mas não precisam ser!)
+
+Estimemos agora uma OLS simples e os dois estágios da variável instrumental
+```{r Iv estimate}
+coefs <- IV %>%
+  summarise(
+    OLS = coef(lm(Y ~ D))[[2]],
+    first_stage = coef(lm(D ~ Z))[[2]],
+    reduced_form = coef(lm(Y ~ Z))[[2]],
+    Wald_estimate = reduced_form/first_stage)
+
+coefs
+
+
+```
+
+Podemos ver que a estimativa pontual correta é Wald estimate, e que o OLS é viesado. No entanto ainda precisamos estimar a variância.
+
+## Panel Data
