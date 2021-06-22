@@ -1,0 +1,206 @@
+---
+title: "Roteiro de Estudo"
+author: "Miguel Sallum"
+date: "22/06/2021"
+output: pdf_document
+header-includes:
+- \usepackage[brazilian]{babel} # idioma
+- \usepackage[utf8]{inputenc}  # acento
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(wooldridge)
+library(plm)
+library(AER)
+library(haven)
+library(estimatr)
+library(magrittr)
+library(rddtools)
+library(rdrobust)
+```
+
+## Questão 1
+
+**Use GPA3.RAW for this exercise. The data set is for 366 student-athletes from a large university for fall and spring semesters. [A similar analysis is in Maloney and McCormick (1993), but here we use a true panel data set.] Because you have two terms of data for each student, an unobserved effects model is appropriate. The primary question of interest is this: Do athletes perform more poorly in school during the semester their sport is in season?**
+
+**(a) Use pooled OLS to estimate a model with term GPA (trmgpa) as the dependent variable. The explanatory variables are spring, sat, hsperc, female, black, white, frstsem, tothrs, crsgpa, and season. Interpret the coefficient on season. Is it statistically significant?**
+
+```{r Questão 1}
+data("gpa3")
+
+pdata.frame(gpa3, index = 732) %>%
+  plm(trmgpa ~ spring + sat + hsperc + female + black + white + frstsem + 
+        tothrs + crsgpa + season, data = ., model = "pooling") %>%
+  summary()
+```
+
+## Questão 2
+
+**The purpose of this exercise is to compare the estimates and standard errors obtained by correctly using 2SLS with those obtained using inappropriate procedures. Use the data file WAGE2.RAW.**
+
+**(a) Use a 2SLS routine to estimate the equation**
+$$
+log(wage)\ =\ \beta_0\ +\ \beta_1educ\ +\ \beta_2exper\ +\ \beta_3tenure\ +\ \beta_4black\ +\ u
+$$
+**where sibs is the IV for educ. Report the results in the usual form**
+
+```{r Questão 2}
+data("wage2")
+
+  ivreg(log(wage) ~ educ + exper + tenure + black | 
+          sibs + exper + tenure + black, data = wage2) %>%
+  summary()
+```
+
+## Questão 3
+
+**Use the data in HTV.RAW for this exercise:**
+
+**(a) Run a simple OLS regression of log(wage) on educ. Without controlling for other factors, what is the 95% confidence interval for the return to another year of education?**
+
+```{r Questão 3(a)}
+data("htv")
+
+htv %>%
+  lm(log(wage) ~ educ, .) %>%
+  confint( 'educ', level = .95)
+
+```
+
+
+**(b) Now, add to the simple regression model in part (a) a quadratic in experience and a full set of regional dummy variables for current residence and residence at age 18. Also include the urban indicators for current and age 18 residences. What is the estimated return to a year of education?**
+```{r Questão 3(b)}
+
+htv %>%
+  lm(log(wage) ~ educ + exper + exper^2 + ne + nc + west + urban + 
+       ne18 + nc18 + urban18 +west18, .) %>%
+  summary()
+
+```
+
+**(c) Estimate the model from part (b) by IV, using ctuit as an IV for educ. How does the confidence interval for the return to education compare with the OLS CI from part (b)?**
+
+```{r Questão 3(c)}
+
+htv %$%
+  ivreg(log(wage) ~ educ + exper + exper^2 + ne + nc + west + urban + 
+       ne18 + nc18 + urban18 +west18 | 
+       ctuit + exper + exper^2 + ne + nc + west + urban + 
+       ne18 + nc18 + urban18 +west18) %>%
+  summary()
+
+```
+
+## Questão 4
+
+**For this exercise, we use JTRAIN.RAW to determine the effect of the job training grant on hours of job training per employee. The basic model for the three years is:**
+$$
+hrsemp_{it} = \beta_0 + \delta_1d88_t + \delta_2d89_t + \beta_1grant_{it} + \beta_2grant_{i,t-1} + \beta_3log(employ_{it}) + a_{i} + u_{it}
+$$
+
+**(a) Estimate the equation using first differencing.**
+
+```{r Questão 4}
+data("jtrain")
+
+pdata.frame(jtrain) %>%
+  plm(hrsemp ~ d88 + d89 + grant + grant_1 + log(employ), 
+      data = ., model = "fd") %>%
+  summary()
+
+```
+
+## Questão 5
+
+**Replicação do gráfico RDD do livro *"Causal Inference: The Mixtape"* **
+
+```{r Questão 5}
+read_data <- function(df)
+{
+  full_path <- paste("https://raw.github.com/scunning1975/mixtape/master/", 
+                     df, sep = "")
+  df <- read_dta(full_path)
+  return(df)
+}
+
+lmb_data <- read_data("lmb-data.dta")
+
+#aggregating the data
+categories <- lmb_data$lagdemvoteshare
+
+demmeans <- split(lmb_data$score, cut(lmb_data$lagdemvoteshare, 100)) %>% 
+  lapply(mean) %>% 
+  unlist()
+
+agg_lmb_data <- data.frame(score = demmeans, lagdemvoteshare = seq(0.01,1, by = 0.01))
+
+#plotting
+lmb_data <- lmb_data %>% 
+  mutate(gg_group = case_when(lagdemvoteshare > 0.5 ~ 1, TRUE ~ 0))
+         
+ggplot(lmb_data, aes(lagdemvoteshare, score)) +
+  geom_point(aes(x = lagdemvoteshare, y = score), data = agg_lmb_data) +
+  stat_smooth(aes(lagdemvoteshare, score, group = gg_group), method = "lm", 
+              formula = y ~ x + I(x^2)) +
+  xlim(0,1) + ylim(0,100) +
+  geom_vline(xintercept = 0.5)
+
+ggplot(lmb_data, aes(lagdemvoteshare, score)) +
+  geom_point(aes(x = lagdemvoteshare, y = score), data = agg_lmb_data) +
+  stat_smooth(aes(lagdemvoteshare, score, group = gg_group), method = "loess") +
+  xlim(0,1) + ylim(0,100) +
+  geom_vline(xintercept = 0.5)
+
+ggplot(lmb_data, aes(lagdemvoteshare, score)) +
+  geom_point(aes(x = lagdemvoteshare, y = score), data = agg_lmb_data) +
+  stat_smooth(aes(lagdemvoteshare, score, group = gg_group), method = "lm") +
+  xlim(0,1) + ylim(0,100) +
+  geom_vline(xintercept = 0.5)
+```
+
+## Questão 6
+
+**Estimando DIFF IN DIFF: Replicação do seguinte exercício.**
+https://www.princeton.edu/~otorres/DID101R.pdf
+
+```{r Questão 6}
+
+read_dta("http://dss.princeton.edu/training/Panel101.dta") %>%
+  mutate(treatment_time = as.numeric(year >= 1994),
+         treated = as.numeric(country > 4),
+         did = treated*treatment_time) %>%
+  lm(y ~ treatment_time + treated + did, .) %>%
+  summary()
+
+read_dta("http://dss.princeton.edu/training/Panel101.dta") %>%
+  mutate(treatment_time = as.numeric(year >= 1994),
+         treated = as.numeric(country > 4)) %>%
+  lm(y ~ treatment_time*treated, .) %>%
+  summary()
+
+```
+
+## Questão 7
+
+**Replicação do seguinte exercício RDD:**
+http://erikgahner.dk/slides/2015-aas/12-rdd.pdf
+
+```{r Questão 7}
+data("house")
+
+house %>%
+  rdd_data(y=y, x=x, cutpoint=0, data=.) %>%
+  rdd_reg_lm()
+  
+house %>%
+  rdd_data(y=y, x=x, cutpoint=0, data=.) %>%
+  rdd_reg_lm(., bw = rdd_bw_ik(.))
+
+house %$%
+  rdrobust(y, x)
+
+house %$%
+  rdplot(y, x)
+```
