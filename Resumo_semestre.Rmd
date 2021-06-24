@@ -1,0 +1,68 @@
+---
+title: "Econometria 2"
+author: "Miguel Sallum"
+date: "23/06/2021"
+output: pdf_document
+header-includes:
+- \usepackage[brazilian]{babel} # idioma
+- \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Regressão Linear e Estimação
+
+A regressão linear é um modelo de relação entre variáveis, e pode ser chamado também de função de esperança condicional. Ela é tradicionalmente estimada com método dos mínimos quadrados ordinários, mas é equivalente por método dos momentos e (se não me engano) por máxima verossimilhança.
+
+Caso tenhamos somente um regressor, estamos estimando a esperança condicional da forma
+$$
+E[Y|X]\ =\ \beta_0\ +\ \beta_1X
+$$
+Tradicionalmente, no entanto, representamos o modelo como
+$$
+Y\ =\ \beta_0\ +\ \beta_1X +\mu
+$$
+Onde $\mu$ são os fatores não observados. 
+Para estimarmos as regressões, são necessárias algumas hipóteses:
+1.
+É importante lembrar que a regressão *não é* um modelo causal. Para ser causal, são necessárias algumas hipóteses a mais. Sendo flexível com notação, em geral nosso interesse é estimar o modelo causal
+$$
+E[Y|do(X)]\ =\ \beta_0\ +\ \beta_1X
+$$
+Queremos encontrar então o valor adequado de $\beta_1$, que seria o efeito médio de X sobre Y. para isso, precisamos da hipótese **(não-observável)** 
+4. $Corr(X,\mu )=0$
+
+### Estimação matricial
+
+### Métodos do R e Bibliotecas
+
+
+
+## Potencial Outcomes
+
+Potencial Outcomes é uma forma de pensar sobre causalidade usando de contrafactuais. A ideia é que teríamos a informação do resultado de cada indivíduo para cada nível de intervenção de X. Os exemplos do tema em geral são binários, **mas o método não se restringe a isso**.  
+```{r cars}
+summary(cars)
+```
+
+## Matching e Estratificação
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+## Regression Discontinuity Design
+
+## Variável Instrumental
+
+## Panel Data
+
+## Diferenças-em-Diferenças
+
+## Event Study, Two-Way Fixed Effects e Generalização de DiD
