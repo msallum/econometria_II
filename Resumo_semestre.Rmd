@@ -10,6 +10,8 @@ header-includes:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
 ```
 ## Regressão Linear e Estimação
 
@@ -35,13 +37,26 @@ Queremos encontrar então o valor adequado de $\beta_1$, que seria o efeito méd
 
 ### Estimação matricial
 
+```{r lm matriz}
+
+ols <- function(Y, X){
+  
+  Xt <- t(X)
+  XtX <- Xt %*% X
+  XtX_inv <- solve(XtX)
+  
+  XtX_inv %*% Xt %*% Y
+}
+
+```
+
 ### Métodos do R e Bibliotecas
 
 
 
 ## Potencial Outcomes
 
-Potencial Outcomes é uma forma de pensar sobre causalidade usando de contrafactuais. A ideia é que teríamos a informação do resultado de cada indivíduo para cada nível de intervenção de X. Os exemplos do tema em geral são binários, **mas o método não se restringe a isso**.  
+Potencial Outcomes é uma forma de pensar sobre causalidade usando de contrafactuais. A ideia é que teríamos a informação do resultado de cada indivíduo para cada nível de intervenção de X. Os exemplos do tema em geral são binários, **mas o método não se restringe a isso**. Em casos binários, podemos representar o resultado do individuo i caso ele receba o tratameto ($X=1$) como $Y_i^1$, e como $Y_i^0$ caso ele não seja tratado 
 ```{r cars}
 summary(cars)
 ```
