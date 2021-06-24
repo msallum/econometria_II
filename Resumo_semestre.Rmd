@@ -109,12 +109,21 @@ Potencial Outcomes é uma forma de pensar sobre causalidade usando de contrafact
 Trabalhando com esses dados hipotéticos surgem alguns conceitos interessantes:
 $$
 \begin{aligned}
-Treatment\ Effect_i\ (TE_i)\ &=\ Y_i^1\ -\ Y_i^0 \\
-Average\ Treatment\ Effect\ (ATE)\ &=\ E[Y^1 - Y^0]\ =\ E[Y^1] - E[Y^0]\\
-Treatment\ Effect\ on\ the\ Treated\ (ATT)\ &=\ E[Y^1 - Y^0|\ Treatment = 1]\\
-Treatment\ Effect\ on\ the\ Unreated\ (ATU)\ &=\ E[Y^1 - Y^0|\ Treatment = 0]
+  Treatment\ Effect_i\ (TE_i)\ &=\ Y_i^1\ -\ Y_i^0 \\
+  Average\ Treatment\ Effect\ (ATE)\ &=\ E[Y^1 - Y^0]\ =\ E[Y^1] - E[Y^0]\\
+  Treatment\ Effect\ on\ the\ Treated\ (ATT)\ &=\ E[Y^1 - Y^0|\ Treatment = 1]\\
+  Treatment\ Effect\ on\ the\ Unreated\ (ATU)\ &=\ E[Y^1 - Y^0|\ Treatment = 0]
 \end{aligned}
 $$
+Nenhum desses efeitos pode der extraido diretamente dos dados, mas eles ajudam a entender quais são as hipóteses necessárias para nossas estimativas valerem em cada caso. Caso quisermos estimar o efeito a partir da diferença simples de médias, por exemplo, chegamos que:
+$$
+\begin{aligned}
+  SDO &= E[Y^1|D=1]- E[Y^0|D=0]\\
+  &= (E[Y^1] - E[Y^0]) + (E[Y^0|D=1] - E[Y^0|D=0]) + (1-\pi)(ATT-ATU)\\
+  &= ATE + viés\ de\ seleção + (1-\pi)(viés\ de\ efeito\ heterogêneo)
+\end{aligned}
+$$
+Considerando que o que nós buscamos conhecer são os efeitos de fato, ATE, então devemos nos preocupar com métodos para que os vieses sejam nulos. A forma mais simples é a randomização, fazendo com que as esperanças de ambos os grupos sejam as mesmas.
 ```{r cars}
 summary(cars)
 ```
