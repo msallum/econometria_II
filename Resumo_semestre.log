@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.6) (preloaded format=pdflatex 2021.6.23)  24 JUN 2021 19:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.6) (preloaded format=pdflatex 2021.6.23)  24 JUN 2021 22:55
 entering extended mode
 **./Resumo_semestre.tex
 (Resumo_semestre.tex
@@ -594,44 +594,36 @@ LaTeX Warning: Command \' invalid in math mode on input line 253.
 
 LaTeX Warning: Command \^ invalid in math mode on input line 253.
 
-<Resumo_semestre_files/figure-latex/pressure-1.pdf, id=34, 469.755pt x 325.215p
-t>
-File: Resumo_semestre_files/figure-latex/pressure-1.pdf Graphic file (type pdf)
-
-<use Resumo_semestre_files/figure-latex/pressure-1.pdf>
-Package pdftex.def Info: Resumo_semestre_files/figure-latex/pressure-1.pdf  use
-d on input line 282.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[3 <./Resumo_semestre_files/figure-latex/pressure-1.pdf>] [4] (Resumo_semestre.
-aux) ) 
+[3] (Resumo_semestre.aux) ) 
 Here is how much of TeX's memory you used:
- 13929 strings out of 478864
- 211650 string characters out of 2848660
- 582738 words of memory out of 3000000
- 31512 multiletter control sequences out of 15000+600000
+ 13918 strings out of 478864
+ 211177 string characters out of 2848660
+ 582687 words of memory out of 3000000
+ 31504 multiletter control sequences out of 15000+600000
  450946 words of font info for 101 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 74i,7n,80p,766b,388s stack positions out of 5000i,500n,10000p,200000b,80000s
-{C:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathi
-t.enc}{C:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.en
-c}{C:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C
-:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}<C
-:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C
-:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C
-:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi10.pfb><C
-:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi7.pfb><C:
-/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/
-Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/U
-sers/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr17.pfb><C:/Us
-ers/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/User
-s/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri10.pfb><C:/User
-s/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/User
-s/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtk10.pfb><C:/User
-s/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/User
-s/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtti10.pfb>
-Output written on Resumo_semestre.pdf (4 pages, 294971 bytes).
+ 74i,7n,80p,763b,388s stack positions out of 5000i,500n,10000p,200000b,80000s
+{C:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/
+enc/dvips/lm/lm-mathit.enc}{C:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/
+enc/dvips/lm/lm-ec.enc}{C:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/enc/
+dvips/lm/lm-rm.enc}{C:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/enc/dvip
+s/lm/lm-mathsy.enc}<C:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/pu
+blic/lm/lmbx10.pfb><C:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/pu
+blic/lm/lmbx12.pfb><C:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/pu
+blic/lm/lmmi10.pfb><C:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/pu
+blic/lm/lmmi7.pfb><C:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/pub
+lic/lm/lmr10.pfb><C:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/publ
+ic/lm/lmr12.pfb><C:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/publi
+c/lm/lmr17.pfb><C:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/public
+/lm/lmr7.pfb><C:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/public/l
+m/lmri10.pfb><C:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/public/l
+m/lmsy10.pfb><C:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/public/l
+m/lmtk10.pfb><C:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/public/l
+m/lmtt10.pfb><C:/Users/mig_s/AppData/Local/Programs/MiKTeX/fonts/type1/public/l
+m/lmtti10.pfb>
+Output written on Resumo_semestre.pdf (3 pages, 290288 bytes).
 PDF statistics:
- 157 PDF objects out of 1000 (max. 8388607)
- 25 named destinations out of 1000 (max. 500000)
- 24662 words of extra memory for PDF output out of 24883 (max. 10000000)
+ 143 PDF objects out of 1000 (max. 8388607)
+ 24 named destinations out of 1000 (max. 500000)
+ 24649 words of extra memory for PDF output out of 24883 (max. 10000000)
 

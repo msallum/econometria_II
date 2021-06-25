@@ -124,24 +124,31 @@ $$
 \end{aligned}
 $$
 Considerando que o que nós buscamos conhecer são os efeitos de fato, ATE, então devemos nos preocupar com métodos para que os vieses sejam nulos. A forma mais simples é a randomização, fazendo com que as esperanças de ambos os grupos sejam as mesmas.
-```{r cars}
-summary(cars)
+
+Tendo uma tabela com os resultados potenciais e os tratamentos binários, podemos estimar os efeitos com
+```{r PO}
+tibble(
+  Y1 = c(8, 5, 9, 8, 4, 6, 10, 11, 8, 6),
+  Y0 = c(4, 5, 6, 7, 5, 6, 4, 3, 2, 8),
+  D = rep(c(1, 0), 5)) %>%
+  mutate(
+    epsilon = Y1-Y0) %>%
+  summarise(
+    ATE = mean(epsilon),
+    ATT = sum(epsilon*D)/sum(D),
+    ATU = sum(epsilon*(1-D))/sum((1-D)),
+    SDO = sum(Y1*D)/sum(D) -sum(Y0*(1-D))/sum((1-D)))
 ```
-
-## Matching e Estratificação
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-
 
 ## Regression Discontinuity Design
 
+
 ## Variável Instrumental
+
+Em muitos dos casos em que queremos estimar os efeitos causais de uma variavel sobre a outra, uma regressão simples não conseguiria estimar, pois a hipótese 4 não valeria. Isto é, existe alguma correlação entre X e $\mu$. A ideia por trás de uma variável instrumental é, então, uma forma de encontrar variações exógenas, "descorrelacionadas" com os *fatores não-observados*. Para fazer isso, você encontra uma variável Z que afeta o tratamento, e só afeta o resultado através do tratamento. Isto é
+
+1. $corr(X, Z) \not= 0$
+2. $corr(\mu, Z) = 0$
 
 ## Panel Data
 
