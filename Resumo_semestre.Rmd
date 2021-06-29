@@ -142,7 +142,7 @@ tibble(
 
 ## Regression Discontinuity Design
 
-
+\newpage
 ## Variável Instrumental
 
 Em muitos dos casos em que queremos estimar os efeitos causais de uma variavel sobre a outra, uma regressão simples não conseguiria estimar, pois a hipótese 4 não valeria. Isto é, existe alguma correlação entre X e $\mu$. A ideia por trás de uma variável instrumental é, então, uma forma de encontrar variações exógenas, "descorrelacionadas" com os *fatores não-observados*. Para fazer isso, você encontra uma variável Z que afeta o tratamento, e só afeta o resultado através do tratamento. Isto é
@@ -150,6 +150,75 @@ Em muitos dos casos em que queremos estimar os efeitos causais de uma variavel s
 1. $corr(X, Z) \not= 0$
 2. $corr(\mu, Z) = 0$
 
+### *Homogenous Treatment Effects (Cunningham Cap. 7)*
+
+Em *Homogenous Treatment Effects*, você supõe que todas as pessoas do grupo que receberam o tratamento terão uma mudança na variável de interesse com a mesma intensidade. Ou seja, se fazer universidade aumento minha renda em 10%, então aumentou em 10% para todos que fizeram universidade.
+
+Portanto, suponha um modelo onde você deseja estimar o quanto um aumento de educação causa aumento na renda.
+
+$$ Y_i = \alpha + \delta S_i + \gamma A_i + \varepsilon_i$$
+
+Onde, $Y_i$ é a renda de cada individuo, $S_i$ os anos de educação e $A_i$ uma variável não observada que representa abilidade. Desse modo, o modelo que conseguiremos estimar é o seguinte:
+
+$$ Y_i = \alpha + \delta S_i + \eta_i$$
+
+onde $\eta_i$ é o erro composto equivalente a $\gamma A_i + \varepsilon_i$. Como assumimos que "abilidade" está correlacionada com a variável de "educação", então apenas $\varepsilon_i$ está descorrelacionado com os regressores.
+
+utilizando o valor estimado de $\hat{\delta}$ da OLS tradicional temos que
+
+$$ \hat{\delta} =  \frac{Cov(Y,S)}{Var(S)} = \frac{E[YS]- E[Y] E[S]}{Var(S)}$$
+
+Se utilizarmos o valor de $Y$ da regressão onde $A$ é observável teremos que
+
+$$ \hat{\delta} =  \frac{E[S (\alpha +\delta S + \gamma A + \epsilon)] - E[\alpha + \delta S + \gamma A + \epsilon] E[S]}{Var(S)}$$
+$$ \hat{\delta} =  \frac{\delta E(S^2) - \delta E(S)^2 + \gamma E(AS) - \gamma E(S) E (A) + E(\varepsilon S)+ E(S) E(\varepsilon)}{Var(S)}$$
+
+$$ \hat{\delta} =  \delta + \gamma\frac{Cov(A,S)}{Var(S)}$$
+Logo, se $\gamma > 0$ e $Cov(A,S) > 0$, então $\hat{\delta}$ será viesado para cima.E como deve ser positivamente correlacionada com eduação, então isso é o que deve acontecer.
+
+Mas se encontrarmos uma nova variável $Z_i$ que causa as pessoas a ter mais anos de estudos e que é descorrelacionada com abilidade (as variáveis não observáveis), podemos utilizar ela como uma variável instrumental para estimar $\delta$.
+
+Para isso precisamos primeiro calcular a covariancia de $Y$ e $Z$
+
+$$ Cov(Y,Z) = Cov( \alpha + \delta S + \gamma A + \varepsilon, Z)$$
+
+
+$$ = E[ Z (\alpha + \delta S + \gamma A + \varepsilon )] - E[\alpha + \delta S + \gamma A + \varepsilon ] \ \ E[Z]$$
+$$ =  E[\alpha Z + \delta S Z + \gamma A Z + \varepsilon Z ] -  \ \{ \alpha + \delta E(S) + \gamma E(A) + E(\varepsilon)\ \} \ E[Z]$$
+
+$$ =   \{ \alpha E(Z) + \delta E(SZ) + \gamma E (AZ) + E (\varepsilon Z) \}  -\\
+ \{\alpha E(Z) + \delta E(S) E(Z) + \gamma E(A) E(Z) + E(\varepsilon) E(Z) \ \} $$
+
+$$ =   \{ \ \alpha E(Z) - \alpha E(Z) \ \} + \delta \{ \ E (SZ) - E(S) \ E(Z) \ \} + \\
+\gamma \ \{  E (AZ) - E(A) \ E(Z) \ \} + \\
+\{  E (\varepsilon Z) -  E(\varepsilon) \ E(Z) \}$$
+
+$$ =   \delta \ Cov(S,Z) + \gamma \ Cov(A, Z) + Cov \ (\varepsilon, Z)$$
+
+Como sabemos que $Cov(A,Z) = 0$ e $Cov(\varepsilon, Z) = 0$, uma vez que não existe essa relação entre os instrumentos, podemos estimar $\hat{\delta}$.
+
+$$ \hat{\delta} = \frac{Cov(Y,Z)}{Cov(S,Z)} $$
+Dessa forma, podemos usar a variável instrumental $Z$ para estimar $\hat{\delta}$ caso $Z$ seja independente da variável oculta e do erro estrutural da regressão. Ou seja, o instrumento deve ser independente das duas partes do erro composto $\eta_i$ citado no início.
+
+
+### *Two-stage least squares*
+
+Uma forma mais intuitiva de trabalhar com Variáveis Instrumentais é através das *Two-stage least squares* (ou $2SLS$).
+Seguindo o raciocínio de antes, suponha que temos dados de $Y$, $S$ e $Z$ para cada observação $i$. Nesse caso o processo de geração de dados é dado por:
+
+$$ Y_i = \alpha + \delta S_i + \varepsilon_i$$
+
+$$ S_i = \gamma + \beta Z_i + \epsilon_i $$
+
+onde $Cov(Z,\varepsilon)=0$, $\beta\neq0$. 
+\\
+Sabendo que $\sum_{i=1}^n (X-i \bar{x}) = 0$ podemos reescrever o estimador de variável instrumental como
+
+$$ \hat{\delta} = \frac{Cov(Y,Z)}{Cov(S,Z)}$$
+$$ = \frac{ \frac{1}{n} \sum_{i=1}^n (Z_i - \bar{Z} ) (Y_i - \bar{Y}) } { \frac {1} {n} \sum_{i=1}^n (Z_i - \bar{Z}) (S_i - \bar{S}) }$$
+$$ = \frac{ \frac{1}{n} \sum  } {\frac{1}{n} } $$
+
+\newpage
 ## Panel Data
 
 ## Diferenças-em-Diferenças
