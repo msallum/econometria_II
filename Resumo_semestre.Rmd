@@ -1,6 +1,6 @@
 ---
 title: "Econometria 2"
-author: "Miguel Sallum"
+author: "Miguel Sallum e big baile"
 date: "23/06/2021"
 output: pdf_document
 header-includes:
@@ -143,14 +143,14 @@ tibble(
 ## Regression Discontinuity Design
 
 \newpage
-## Variável Instrumental
+## Variável Instrumental (Cunningham Cap. 7)
 
 Em muitos dos casos em que queremos estimar os efeitos causais de uma variavel sobre a outra, uma regressão simples não conseguiria estimar, pois a hipótese 4 não valeria. Isto é, existe alguma correlação entre X e $\mu$. A ideia por trás de uma variável instrumental é, então, uma forma de encontrar variações exógenas, "descorrelacionadas" com os *fatores não-observados*. Para fazer isso, você encontra uma variável Z que afeta o tratamento, e só afeta o resultado através do tratamento. Isto é
 
 1. $corr(X, Z) \not= 0$
 2. $corr(\mu, Z) = 0$
 
-### *Homogenous Treatment Effects (Cunningham Cap. 7)*
+### *Homogenous Treatment Effects *
 
 Em *Homogenous Treatment Effects*, você supõe que todas as pessoas do grupo que receberam o tratamento terão uma mudança na variável de interesse com a mesma intensidade. Ou seja, se fazer universidade aumento minha renda em 10%, então aumentou em 10% para todos que fizeram universidade.
 
@@ -201,22 +201,52 @@ $$ \hat{\delta} = \frac{Cov(Y,Z)}{Cov(S,Z)} $$
 Dessa forma, podemos usar a variável instrumental $Z$ para estimar $\hat{\delta}$ caso $Z$ seja independente da variável oculta e do erro estrutural da regressão. Ou seja, o instrumento deve ser independente das duas partes do erro composto $\eta_i$ citado no início.
 
 
+### *Como ver se Z é um instrumento fraco?*
+
+Se $Cov(Z,\eta)\neq0$ e $Cov(Z,S) = pequeno$, então pode existir um problema de variável fraca.
+
+
+Como derivamos anteriormente temos que 
+
+$$ \delta_{IV} = \frac{Cov(Y,Z)}{Cov(S,Z)}$$
+$$ = \frac{Cov([\alpha + \delta S + \gamma A + \varepsilon], Z)}{Cov(S,Z)}$$
+$$  = \delta \frac{Cov([S], Z)}{Cov(S,Z)} + \gamma  \frac{Cov([A], Z)}{Cov(S,Z)} +  \frac{Cov([\varepsilon], Z)}{Cov(S,Z)}$$ 
+
+$$ = \delta + \gamma  \frac{Cov(\eta, Z)}{Cov(S,Z)}$$
+Note que se $Z \not\!\perp\!\!\!\perp   \eta$ e a correlação $Cov(S,Z)$ é fraca, então o segundo termo explode. Esse é o problema de viés de instrumentos fracos.
+
 ### *Two-stage least squares*
 
-Uma forma mais intuitiva de trabalhar com Variáveis Instrumentais é através das *Two-stage least squares* (ou $2SLS$).
-Seguindo o raciocínio de antes, suponha que temos dados de $Y$, $S$ e $Z$ para cada observação $i$. Nesse caso o processo de geração de dados é dado por:
+Uma forma estimar as Variáveis Instrumentais é através das *Two-stage least squares* (ou $2SLS$).
 
-$$ Y_i = \alpha + \delta S_i + \varepsilon_i$$
+Seguindo o raciocínio de antes, suponha que temos dados de $Y$, $S$ e $Z$ para cada observação $i$. Nesse caso, o processo de gerador de dados é dado por:
 
-$$ S_i = \gamma + \beta Z_i + \epsilon_i $$
+$$ Y_i = \alpha + \delta S_i + \eta_i$$
 
-onde $Cov(Z,\varepsilon)=0$, $\beta\neq0$. 
-\\
-Sabendo que $\sum_{i=1}^n (X-i \bar{x}) = 0$ podemos reescrever o estimador de variável instrumental como
+A regressão de primeiro estágio é dada por:
 
-$$ \hat{\delta} = \frac{Cov(Y,Z)}{Cov(S,Z)}$$
-$$ = \frac{ \frac{1}{n} \sum_{i=1}^n (Z_i - \bar{Z} ) (Y_i - \bar{Y}) } { \frac {1} {n} \sum_{i=1}^n (Z_i - \bar{Z}) (S_i - \bar{S}) }$$
-$$ = \frac{ \frac{1}{n} \sum  } {\frac{1}{n} } $$
+
+$$ S_i = \gamma + \rho Z_i + \zeta_i $$
+A regressão de segundo estágio é dada por:
+
+$$ Y_i = \beta + \delta \hat{S_i} + \nu_i$$
+
+Onde $\hat{S_i}$ são os valores fitados de $S$ da regressão de primeiro estágio.
+
+
+### *Forma Reduzida*
+
+Na forma reduzida da IV regredimos $Y$ diretamente contra $Z$.
+
+$$ Y_i = \psi + \pi Z_i + \epsilon_i $$
+A partir das definições apresentadas antes, temos que 
+
+$$ \hat{\delta}_{2SLS} = \frac{Cov(Z,Y)}{Cov(Z,S)} = \frac{\frac{Cov(Z,S)}{Var(Z)}}{\frac{Cov(Z,S)}{Var(Z)}} = \frac{\hat{\pi}}{\hat{\rho}}$$
+
+Ou seja, regredindo a forma reduzida e o primeiro estagio, conseguimos achar o valor de $\hat{delta}$.
+
+### *Heterogeneous Treatment Effects*
+
 
 \newpage
 ## Panel Data
