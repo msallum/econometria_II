@@ -245,7 +245,71 @@ $$ \hat{\delta}_{2SLS} = \frac{Cov(Z,Y)}{Cov(Z,S)} = \frac{\frac{Cov(Z,S)}{Var(Z
 
 Ou seja, regredindo a forma reduzida e o primeiro estagio, conseguimos achar o valor de $\hat{delta}$.
 
-### *Heterogeneous Treatment Effects*
+### *Exemplos em R*
+
+#### Matricial
+\
+```{r iv matrix}
+
+
+betas_matrix <- function(Y,X) {
+  cols = rep(1,dim(X)[1])
+  X <- cbind(cols, X)
+  XT <- t(X)
+  XTX <- XT %*% X
+  XTY <- XT %*% Y
+  YT <- t(Y)
+  invXTX <- solve(XTX)
+  betas <- invXTX %*% XTY
+  return(betas)
+}
+
+
+iv_matrix <- function(Y,X,Z) {
+  cols = rep(1,dim(X)[1])
+  X <- cbind(cols, X)
+  Z <- cbind(cols, Z)
+  ZT <- t(Z)
+  ZTX <- ZT %*% X
+  ZTY <- ZT %*% Y
+  YT <- t(Y)
+  invZTX <- solve(ZTX)
+  betas <- invZTX %*%ZTY
+  
+  return(betas)
+}
+
+
+Y <- matrix(c(8, 5, 4, 3, 1), ncol = 1, nrow = 5, byrow = F)
+X <- matrix(c(5, 3, 3, 1, 1, 
+              1, 2, 2, 3, 4,
+              8, 5, 3, 1, 7),
+            ncol = 3, nrow = 5, byrow = F)
+
+Z <- matrix(c(14, 8, 9, 2, 4, # Instrumento 1
+              3, 5, 4, 2, 5, # Instrumento 2
+              8, 5, 3, 1, 7), 
+            ncol = 3, nrow = 5, byrow = F)
+
+
+betas <- betas_matrix(Y,X)
+betas_iv <- iv_matrix(Y,X,Z)
+
+
+```
+
+\
+
+#### Bibliotecas
+
+Para rodar estimador de IV utilizamos a biblioteca precisamos importar a biblioteca através do comando *library(AER)*, e assim como na regressão comum, já em conjunção com *summary()*. Para utilizar a função devemos colocar primeiro os regressores e em seguida copiar toda a parte dos regressores, porém substituindo aqueles específicos pelas suas respctivas variáveis instrumentais após o pipe |.
+
+```{r ivreg function}
+#library(AER)
+#ivreg(dependente ~ regressores | variaveis_instrumentais , data = dados)%>%
+ # summary()
+
+```
 
 
 \newpage

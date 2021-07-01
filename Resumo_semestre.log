@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.6.29)  30 JUN 2021 21:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.6.29)  30 JUN 2021 22:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -541,34 +541,44 @@ LaTeX Warning: Command \' invalid in math mode on input line 253.
 
 LaTeX Warning: Command \^ invalid in math mode on input line 253.
 
-[3] [4] [5] [6] [7] (./Resumo_semestre.aux) ) 
+[3] [4] [5]
+Underfull \hbox (badness 10000) in paragraph at lines 449--450
+
+ []
+
+[6]
+Underfull \hbox (badness 10000) in paragraph at lines 498--499
+
+ []
+
+[7] [8] (./Resumo_semestre.aux) ) 
 Here is how much of TeX's memory you used:
- 13934 strings out of 478519
- 206966 string characters out of 5853952
- 584178 words of memory out of 5000000
- 31541 multiletter control sequences out of 15000+600000
- 456052 words of font info for 110 fonts, out of 8000000 for 9000
+ 13949 strings out of 478519
+ 207127 string characters out of 5853952
+ 584286 words of memory out of 5000000
+ 31545 multiletter control sequences out of 15000+600000
+ 456229 words of font info for 112 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 74i,7n,80p,764b,388s stack positions out of 5000i,500n,10000p,200000b,80000s
-{c:/texlive/2021/texmf-dist/fonts/
-enc/dvips/lm/lm-ec.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-mathit
-.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{c:/texlive/2021/
-texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}<c:/texlive/2021/texmf-dist/fonts/t
-ype1/public/lm/lmbx10.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/lm/lmb
-x12.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb><c:/texli
-ve/2021/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/texlive/2021/texmf-dist
-/fonts/type1/public/lm/lmmi7.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public
-/lm/lmr10.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/t
-exlive/2021/texmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/texlive/2021/texmf-d
-ist/fonts/type1/public/lm/lmr7.pfb><c:/texlive/2021/texmf-dist/fonts/type1/publ
-ic/lm/lmri10.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><
-c:/texlive/2021/texmf-dist/fonts/type1/public/lm/lmtk10.pfb><c:/texlive/2021/te
-xmf-dist/fonts/type1/public/lm/lmtt10.pfb><c:/texlive/2021/texmf-dist/fonts/typ
-e1/public/lm/lmtti10.pfb>
-Output written on Resumo_semestre.pdf (7 pages, 310518 bytes).
+ 74i,7n,80p,764b,389s stack positions out of 5000i,500n,10000p,200000b,80000s
+{c:/texlive/2021/texmf-dist/fonts/enc/dvips/lm
+/lm-ec.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/tex
+live/2021/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{c:/texlive/2021/texmf-dist/f
+onts/enc/dvips/lm/lm-mathsy.enc}<c:/texlive/2021/texmf-dist/fonts/type1/public/
+lm/lmbx10.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/
+texlive/2021/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb><c:/texlive/2021/texm
+f-dist/fonts/type1/public/lm/lmmi10.pfb><c:/texlive/2021/texmf-dist/fonts/type1
+/public/lm/lmmi7.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr10.pf
+b><c:/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/texlive/2021/
+texmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/texlive/2021/texmf-dist/fonts/ty
+pe1/public/lm/lmr7.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/lm/lmri10
+.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/texlive/2
+021/texmf-dist/fonts/type1/public/lm/lmtk10.pfb><c:/texlive/2021/texmf-dist/fon
+ts/type1/public/lm/lmtt10.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/lm
+/lmtti10.pfb>
+Output written on Resumo_semestre.pdf (8 pages, 315765 bytes).
 PDF statistics:
- 191 PDF objects out of 1000 (max. 8388607)
- 151 compressed objects within 2 object streams
- 36 named destinations out of 1000 (max. 500000)
- 26729 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 208 PDF objects out of 1000 (max. 8388607)
+ 167 compressed objects within 2 object streams
+ 43 named destinations out of 1000 (max. 500000)
+ 26737 words of extra memory for PDF output out of 29859 (max. 10000000)
 
